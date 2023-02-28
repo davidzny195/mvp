@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export default {
   login: async (email: string, password: string): Promise<string> => {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.users.findUnique({ where: { email } });
     if (!user) {
       throw new Error('No user');
     }
@@ -30,15 +30,15 @@ export default {
     email: string,
     password: string
   ): Promise<any> => {
-    console.log(username, email, password, 'PARAMS');
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.users.findUnique({ where: { email } });
+    console.log(existingUser);
     if (existingUser) {
       throw new Error('Email exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword, 'Hashed');
+
     try {
-      const newUser = await prisma.user.create({
+      const newUser = await prisma.users.create({
         data: {
           username,
           email,
