@@ -1,10 +1,9 @@
-const morgan = require('morgan');
-const logger = require('./logger');
+import morgan from 'morgan';
+import logger from './logger';
+import { StreamOptions } from 'morgan';
 
-export {};
-
-const stream = {
-  write: (message: any) => logger.http(message),
+const stream: StreamOptions = {
+  write: (message: string) => logger.http(message),
 };
 
 const skip = () => {
@@ -17,4 +16,4 @@ const morganMiddleware = morgan(
   { stream, skip }
 );
 
-module.exports = morganMiddleware;
+export default morganMiddleware;
