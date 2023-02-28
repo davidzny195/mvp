@@ -31,7 +31,7 @@ export default {
     password: string
   ): Promise<any> => {
     const existingUser = await prisma.users.findUnique({ where: { email } });
-    console.log(existingUser);
+
     if (existingUser) {
       throw new Error('Email exists');
     }
@@ -45,7 +45,6 @@ export default {
           password: hashedPassword,
         },
       });
-      console.log(newUser, 'NEW USER');
       return newUser;
     } catch (error) {
       throw new Error(error);

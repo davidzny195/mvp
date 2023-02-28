@@ -1,9 +1,9 @@
 export interface UserForm {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface SignUp extends UserForm {
-  email: string;
+  username: string;
   verifyPassword: string;
 }

@@ -1,12 +1,14 @@
 require('dotenv').config();
 import express from 'express';
 import logger from './middleware/logger';
+import cors from 'cors';
 import morganMiddleware from './middleware/morgan.middleware';
 import routes from './routes';
 const app: express.Application = express();
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 app.use(morganMiddleware);
 
 app.use('/', routes());

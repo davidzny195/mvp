@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main
       className="w-screen h-screen bg-cover"
-      // style={{ backgroundImage: "url('/assets/bg4.jpg')" }}
+      // style={{ backgroundImage: "url('/assets/bg1.jpg')" }}
     >
       <div className="max-w-screen-2xl m-auto">
         {/* <div className="coin-loader-root pl-20">

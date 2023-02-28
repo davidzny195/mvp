@@ -1,18 +1,21 @@
 import axios from 'axios';
+import { Token, ResponseData } from './types';
 import Cookies from 'js-cookie';
 
 export async function login(email: string, password: string) {
   try {
-    const res = await axios.post('/auth/login', {
-      email,
-      password,
-    });
-    // const { success, message, token } = res;
+    const response = await axios.post<Token>(
+      `${process.env.BE_API_URL}/auth/login`,
+      {
+        email,
+        password,
+      }
+    );
+    const { success, message, token } = response.data;
 
-    // if (success) Cookies.set('token', token, { expires: 24 });
-    console.log(res, 'HEREEEE');
+    if (success) Cookies.set('token', token, { expires: 24 });
 
-    return { success: true, message: 'Successful log in' };
+    return { success, message };
   } catch (error) {
     return { success: false, message: 'Error logging in' };
   }
@@ -23,15 +26,19 @@ export async function signup(
   email: string,
   password: string
 ) {
-  console.log(username, email, password);
   try {
-    await axios.post('/auth/signup', {
-      username,
-      email,
-      password,
-    });
+    const response = await axios.post<ResponseData>(
+      `${process.env.BE_API_URL}/auth/signup`,
+      {
+        username,
+        email,
+        password,
+      }
+    );
 
-    return { success: true, message: 'Successful sign up' };
+    const { success, message } = response.data;
+
+    return { success, message };
   } catch (error) {
     return { success: false, message: 'Error signing up' };
   }

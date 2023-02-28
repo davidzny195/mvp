@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
+import { login } from '../api/auth';
 import { UserForm } from './types';
 
 export default function LoginForm() {
   const [form, setForm] = useState<UserForm>({
-    username: '',
+    email: '',
     password: '',
   });
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const response = await login(form.email, form.password);
+    console.log(response);
   };
 
   return (
@@ -18,14 +26,14 @@ export default function LoginForm() {
         <Typography variant="h5" sx={{ mb: 2 }}>
           Login
         </Typography>
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextField
-            label="Username"
-            name="username"
-            autoComplete="username"
+            label="Email"
+            name="email"
+            autoComplete="email"
             fullWidth
             margin="normal"
-            value={form.username}
+            value={form.email}
             onChange={(event) => handleChange(event)}
           />
           <TextField
