@@ -1,3 +1,99 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.coin-loader-root {
+  position: relative;
+  top: 20%;
+}
+
+.coin-loader-chip {
+  width: 10.8em;
+  height: 10.8em;
+  box-shadow: inset 2.16em 2.16em 10.8em rgba(255, 255, 255, 0.095),
+    inset -2.16em -2.16em 2.16em rgba(0, 0, 0, 0.15),
+    0px 1px 1px rgba(0, 0, 0, 0.60),
+    0.432em 0.432em 0.864em rgba(0, 0, 0, 0.20);
+  background-color: #8d1209;
+  background-image: radial-gradient(circle, #8d1209 0 4.86em, transparent 4.86em),
+    repeating-conic-gradient(#8d1209 0% 8%, #fff 8% 16.666667%);
+  animation: 2s infinite normal coinLoaderMove;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.coin-loader-chip:after {
+  content: '';
+  width: 8.0em;
+  height: 8.0em;
+  left: 1.404em;
+  top: 1.404em;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center center, center center, center center;
+  background-size: auto 4.32em, 8.0em 8.0em, 8.0em 8.0em;
+  background-color: #8d1209;
+  background-image: url('https://www.smartmoneymatch.com/bundles/frontend/images/company-logo.png.pagespeed.ce.-9qAfcmVqF.png'),
+    radial-gradient(circle, #8d1209 0 3.78em, transparent 3.78em 100%),
+    repeating-conic-gradient(from 0deg, #8d1209 0 10deg, #fff 10deg 30deg);
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.coin-loader-chip-1 {
+  animation-delay: -1.9998s;
+}
+
+.coin-loader-chip-2 {
+  animation-delay: -1.3332s;
+}
+
+.coin-loader-chip-3 {
+  animation-delay: -0.6666s;
+}
+
+@keyframes coinLoaderMove {
+  0% {
+    transform: translate(4.86em, 21.78em) rotate(0deg);
+    z-index: 71;
+  }
+
+  10% {
+    transform: translate(4.86em, 0em) rotate(-150deg);
+    z-index: 71;
+  }
+
+  20% {
+    transform: translate(21.78em, 21.78em) rotate(0deg);
+    z-index: 69;
+  }
+
+  43% {
+    transform: translate(21.78em, 21.78em) rotate(0deg);
+    z-index: 69;
+  }
+
+  53% {
+    transform: translate(12.285em, 21.78em) rotate(0deg);
+    z-index: 70;
+  }
+
+  76% {
+    transform: translate(12.285em, 21.78em) rotate(0deg);
+    z-index: 70;
+  }
+
+  86% {
+    transform: translate(4.86em, 21.78em) rotate(0deg);
+    z-index: 71;
+  }
+
+  100% {
+    transform: translate(4.86em, 21.78em) rotate(0deg);
+    z-index: 71;
+  }
+}

@@ -9,15 +9,35 @@ export default function Home() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box className="mb-2" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={activeTab} onChange={handleTabChange}>
-          <Tab label="Log In" />
-          <Tab label="Sign Up" />
-        </Tabs>
-      </Box>
-      {activeTab === 0 && <LoginForm />}
-      {activeTab === 1 && <SignUpForm />}
-    </Container>
+    <main className="w-screen h-screen">
+      <div className="max-w-screen-2xl m-auto">
+        <div className="coin-loader-root pl-20">
+          <div className="coin-loader-chip coin-loader-chip-1"></div>
+          <div className="coin-loader-chip coin-loader-chip-2"></div>
+          <div className="coin-loader-chip coin-loader-chip-3"></div>
+        </div>
+        <Container maxWidth="md" className="pt-32">
+          <Box
+            className="mb-2 flex justify-center"
+            sx={{ borderBottom: 1, borderColor: 'divider' }}
+          >
+            <Tabs
+              value={activeTab}
+              style={{ justifyContent: 'flex-end' }}
+              onChange={handleTabChange}
+            >
+              <Tab label="Log In" />
+              <Tab label="Sign Up" />
+            </Tabs>
+          </Box>
+          <div className="flex justify-end">
+            <div>
+              {activeTab === 0 && <LoginForm />}
+              {activeTab === 1 && <SignUpForm />}
+            </div>
+          </div>
+        </Container>
+      </div>
+    </main>
   );
 }
