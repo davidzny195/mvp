@@ -1,6 +1,11 @@
-const winston = require('winston');
+import winston, { format } from 'winston';
+import { Logger } from 'winston';
 
-export {};
+export interface LogEntry {
+  level: string;
+  message: string;
+  timestamp: string;
+}
 
 const levels = {
   error: 0,
@@ -26,26 +31,27 @@ const colors = {
 
 winston.addColors(colors);
 
-const format = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-  winston.format.colorize({ all: true }),
-  winston.format.printf(
-    (info: any) => `${info.timestamp} ${info.level}: ${info.message}`
-  )
-);
+const logFormat = format.printf((info) => {
+  const { timestamp, level, message } = info as LogEntry;
+  return `${timestamp} ${level}: ${message}`;
+});
 
-const transports = [
-  new winston.transports.Console(),
-  new winston.transports.File({
-    filename: 'logs/error.log',
-    level: 'error',
-  }),
-  new winston.transports.File({ filename: 'logs/all.log' }),
-];
-
-module.exports = winston.createLogger({
+const logger: Logger = winston.createLogger({
   level: level(),
   levels,
-  format,
-  transports,
+  format: format.combine(
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
+    format.colorize({ all: true }),
+    logFormat
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({
+      filename: 'logs/error.log',
+      level: 'error',
+    }),
+    new winston.transports.File({ filename: 'logs/all.log' }),
+  ],
 });
+
+export default logger;

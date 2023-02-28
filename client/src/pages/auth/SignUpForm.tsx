@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
+import { signup } from '../api/auth';
 import { SignUp } from './types';
 
 export default function SignUpForm() {
@@ -14,13 +15,21 @@ export default function SignUpForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (form.password !== form.verifyPassword) return;
+
+    const response = await signup(form.username, form.email, form.password);
+    console.log(response);
+  };
+
   return (
     <div>
       <Box sx={{ maxWidth: 400 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
           Sign Up
         </Typography>
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextField
             label="Username"
             name="username"

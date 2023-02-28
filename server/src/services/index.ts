@@ -1,1 +1,1 @@
-exports.authService = require('/auth');
+export { default as authService } from './auth';
