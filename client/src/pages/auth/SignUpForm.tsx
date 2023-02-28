@@ -43,7 +43,7 @@ export default function SignUpForm() {
           <TextField
             label="Password"
             name="password"
-            autoComplete="password"
+            autoComplete="new-password"
             fullWidth
             margin="normal"
             type="password"
@@ -53,6 +53,7 @@ export default function SignUpForm() {
           <TextField
             label="Confirm password"
             name="verifyPassword"
+            autoComplete="new-password"
             fullWidth
             margin="normal"
             type="password"

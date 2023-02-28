@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { UserForm } from '../../components/auth/types';
+import { UserForm } from './types';
 
-export default function LoginPage() {
+export default function LoginForm() {
   const [form, setForm] = useState<UserForm>({
     username: '',
     password: '',
@@ -31,7 +31,7 @@ export default function LoginPage() {
           <TextField
             label="Password"
             name="password"
-            autoComplete="password"
+            autoComplete="current-password"
             fullWidth
             margin="normal"
             type="password"
