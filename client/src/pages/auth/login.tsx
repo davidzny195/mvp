@@ -1,14 +1,14 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { signup } from '../api/auth';
-import { SignUp } from './types';
+import { login } from '../api/auth';
+import { UserForm } from './types';
 
-export default function SignUpForm() {
-  const [form, setForm] = useState<SignUp>({
-    username: '',
+export default function LoginForm() {
+  const router = useRouter();
+  const [form, setForm] = useState<UserForm>({
     email: '',
     password: '',
-    verifyPassword: '',
   });
 
   const handleChange = (e: any) => {
@@ -17,56 +17,37 @@ export default function SignUpForm() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (form.password !== form.verifyPassword) return;
 
-    const response = await signup(form.username, form.email, form.password);
-    console.log(response);
+    const response = await login(form.email, form.password);
+    if (response.success) {
+      router.push('/dashboard');
+    }
   };
 
   return (
     <div>
       <Box sx={{ maxWidth: 400 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
-          Sign Up
+          Login
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
-            label="Username"
-            name="username"
-            autoComplete="username"
-            fullWidth
-            margin="normal"
-            value={form.username}
-            onChange={(event) => handleChange(event)}
-          />
           <TextField
             label="Email"
             name="email"
             autoComplete="email"
             fullWidth
             margin="normal"
-            type="email"
             value={form.email}
             onChange={(event) => handleChange(event)}
           />
           <TextField
             label="Password"
             name="password"
-            autoComplete="new-password"
+            autoComplete="current-password"
             fullWidth
             margin="normal"
             type="password"
             value={form.password}
-            onChange={(event) => handleChange(event)}
-          />
-          <TextField
-            label="Confirm password"
-            name="verifyPassword"
-            autoComplete="new-password"
-            fullWidth
-            margin="normal"
-            type="password"
-            value={form.verifyPassword}
             onChange={(event) => handleChange(event)}
           />
           <Button
@@ -74,7 +55,7 @@ export default function SignUpForm() {
             variant="contained"
             className="mt-2 text-black hover:text-white"
           >
-            Sign Up
+            Login
           </Button>
         </form>
       </Box>
