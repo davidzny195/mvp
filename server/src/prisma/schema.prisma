@@ -8,10 +8,114 @@ datasource db {
 }
 
 model Users {
-  user_id    Int      @id @default(autoincrement())
-  username   String
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  userId        Int             @id @default(autoincrement())
+  username      String          @unique
+  email         String          @unique
+  password      String
+  pokerRoom     PokerRooms?
+  PlayersInGame PlayersInGame[]
+  PlayerActions PlayerActions[]
+  GameHistory   GameHistory[]
+
+  @@map("users")
+}
+
+model PokerRooms {
+  roomId             Int    @id @default(autoincrement())
+  playerCount        Int
+  currentPlayerCount Int
+  roomType           String
+  smallBlind         Int
+  bigBlind           Int
+  ownerId            Int    @unique
+
+  owner         Users           @relation(fields: [ownerId], references: [userId])
+  PlayersInGame PlayersInGame[]
+  PlayerActions PlayerActions[]
+  GameState     GameState[]
+  GameHistory   GameHistory[]
+  GameSeats     GameSeats[]
+
+  @@map("poker_rooms")
+}
+
+model GameSeats {
+  id       Int  @id @default(autoincrement())
+  roomId   Int
+  seatNum  Int // The number of the seat (starting from 1)
+  playerId Int? // The ID of the player assigned to this seat (if any)
+
+  game PokerRooms @relation(fields: [roomId], references: [roomId])
+
+  @@map("game_seats")
+}
+
+model PlayersInGame {
+  playerId  Int
+  roomId    Int
+  joinOrder Int
+
+  user Users      @relation(fields: [playerId], references: [userId])
+  room PokerRooms @relation(fields: [roomId], references: [roomId])
+
+  @@id([playerId, roomId])
+  @@map("players_in_game")
+}
+
+model PlayerActions {
+  actionId     Int      @id @default(autoincrement())
+  playerId     Int
+  roomId       Int
+  roundNumber  Int
+  actionType   String[]
+  actionAmount Float
+  potAmount    Float
+  folded       Boolean?
+  handCards    String[]
+
+  player Users      @relation(fields: [playerId], references: [userId])
+  room   PokerRooms @relation(fields: [roomId], references: [roomId])
+
+  @@map("player_actions")
+}
+
+model GameState {
+  id               Int      @id @default(autoincrement())
+  roomId           Int
+  smallBlindPlayer Int
+  bigBlindPlayer   Int
+  currentPot       Float
+  flopCards        String[]
+  turnCard         String?
+  riverCard        String?
+  cardsRemaining   Int
+  cardsDealt       Int
+  cardsBurned      Int
+  activePlayers    Int[]
+  lastAction       String?
+  gameStage        String
+  currentPlayer    Int?
+  bettingRound     String?
+
+  room PokerRooms @relation(fields: [roomId], references: [roomId])
+
+  @@map("game_state")
+}
+
+model GameHistory {
+  id           Int      @id @default(autoincrement())
+  roomId       Int
+  roundNumber  Int
+  playerId     Int
+  actionType   String
+  actionAmount Float?
+  potAmount    Float
+  folded       Boolean
+  turnOrder    Int
+  createdAt    DateTime @default(now())
+
+  player Users      @relation(fields: [playerId], references: [userId])
+  room   PokerRooms @relation(fields: [roomId], references: [roomId])
+
+  @@map("game_history")
 }
