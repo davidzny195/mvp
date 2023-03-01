@@ -15,7 +15,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
         <div className="w-full">
           <Navbar />
-          <div>{children}</div>
+          <div className="h-full">{children}</div>
         </div>
       </div>
     </div>

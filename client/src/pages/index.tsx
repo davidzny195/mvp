@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Container, Tab, Tabs } from '@mui/material';
+import Cookies from 'js-cookie';
 import { LoginForm, SignUpForm } from './auth';
 
 export default function Login() {
@@ -8,12 +9,16 @@ export default function Login() {
     setActiveTab(newTab);
   };
 
+  useEffect(() => {
+    Cookies.remove('token');
+  }, []);
+
   return (
     <main
       className="w-screen h-screen bg-cover"
       // style={{ backgroundImage: "url('/assets/bg1.jpg')" }}
     >
-      <Box className="w-1/2 h-screen absolute top-0 left-0 bg-[#ffab00] rounded-br-[50vw]" />
+      <Box className="w-1/2 h-screen absolute top-0 left-0 bg-[#FF8C00] rounded-br-[50vw]" />
       <div className="max-w-screen-2xl m-auto">
         <Container maxWidth="md" className="pt-64">
           <Box

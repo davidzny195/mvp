@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 
 export async function login(email: string, password: string) {
   try {
+    console.log(process.env.BE_API_URL, 'HELLO');
     const response = await axios.post<Token>(
       `${process.env.BE_API_URL}/auth/login`,
       {
