@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -6,10 +7,12 @@ export default function RouteGuard(WrappedComponent: any) {
     const router = useRouter();
 
     useEffect(() => {
-      const token = localStorage.getItem('token');
+      const token = Cookies.get('token');
       if (!token) {
-        router.replace('/login');
+        router.replace('/');
       }
+
+      // Need to implement function to validate token
     }, [router]);
 
     return <WrappedComponent {...props} />;
