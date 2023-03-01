@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Box, Container, Tab, Tabs } from '@mui/material';
 import { LoginForm, SignUpForm } from './auth';
 
-export default function Home() {
+export default function Login() {
   const [activeTab, setActiveTab] = useState(0);
   const handleTabChange = (event: any, newTab: number) => {
     setActiveTab(newTab);
@@ -13,15 +13,11 @@ export default function Home() {
       className="w-screen h-screen bg-cover"
       // style={{ backgroundImage: "url('/assets/bg1.jpg')" }}
     >
+      <Box className="w-1/2 h-screen absolute top-0 left-0 bg-blue-200 rounded-br-[50vw]" />
       <div className="max-w-screen-2xl m-auto">
-        {/* <div className="coin-loader-root pl-20">
-          <div className="coin-loader-chip coin-loader-chip-1"></div>
-          <div className="coin-loader-chip coin-loader-chip-2"></div>
-          <div className="coin-loader-chip coin-loader-chip-3"></div>
-        </div> */}
-        <Container maxWidth="md" className="pt-32">
+        <Container maxWidth="md" className="pt-64">
           <Box
-            className="mb-2 flex justify-center"
+            className="mb-2 flex justify-end"
             sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
             <Tabs

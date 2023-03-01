@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { login } from '../api/auth';
 import { UserForm } from './types';
 
 export default function LoginForm() {
+  const router = useRouter();
   const [form, setForm] = useState<UserForm>({
     email: '',
     password: '',
@@ -17,7 +19,9 @@ export default function LoginForm() {
     e.preventDefault();
 
     const response = await login(form.email, form.password);
-    console.log(response);
+    if (response.success) {
+      router.push('/dashboard');
+    }
   };
 
   return (
