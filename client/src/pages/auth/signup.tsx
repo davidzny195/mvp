@@ -23,7 +23,7 @@ export default function SignUpForm() {
 
     const response = await signup(form.username, form.email, form.password);
     if (response.success) {
-      router.push('/dashboard');
+      router.push('/');
     }
   };
 

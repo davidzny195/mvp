@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cd client && next dev & npx vite",
+    "dev": "cd client && next dev",
+    "vite": "npx vite",
     "build": "cd client && next build && npx vite build",
     "start": "cd client && next start",
     "server:dev": "nodemon --watch 'server/**/*.ts' --exec 'ts-node' server/src/server.ts"

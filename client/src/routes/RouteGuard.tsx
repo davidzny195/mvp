@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 export default function RouteGuard(WrappedComponent: any) {
   const Guard = (props: any) => {
     const router = useRouter();
+    const token = Cookies.get('token');
 
     useEffect(() => {
-      const token = Cookies.get('token');
       if (!token) {
         router.replace('/');
       }
