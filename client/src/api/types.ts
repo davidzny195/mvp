@@ -3,6 +3,7 @@ export interface ResponseData {
   message: string;
 }
 
-export interface Token extends ResponseData {
+export interface WithToken extends ResponseData {
   token: string;
+  user: object;
 }
