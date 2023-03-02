@@ -1,20 +1,23 @@
 import axios from 'axios';
-import { Token, ResponseData } from './types';
+import { WithToken, ResponseData } from './types';
 import Cookies from 'js-cookie';
+import store from '../redux/store';
+import { updateCurrentUser } from '../redux/user';
 
 export async function login(email: string, password: string) {
   try {
-    console.log(process.env.BE_API_URL, 'HELLO');
-    const response = await axios.post<Token>(
+    const response = await axios.post<WithToken>(
       `${process.env.BE_API_URL}/auth/login`,
       {
         email,
         password,
       }
     );
-    const { success, message, token } = response.data;
-
-    if (success) Cookies.set('token', token, { expires: 24 });
+    const { success, message, token, user } = response.data;
+    if (success) {
+      Cookies.set('token', token, { expires: 24 });
+      store.dispatch(updateCurrentUser(user));
+    }
 
     return { success, message };
   } catch (error) {

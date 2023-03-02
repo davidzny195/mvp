@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { signup } from '../api/auth';
+import { signup } from '../../api/auth';
 import { SignUp } from './types';
 
-export default function SignUpForm() {
+export default function SignUpForm({ finishSignup }: any) {
   const router = useRouter();
   const [form, setForm] = useState<SignUp>({
     username: '',
@@ -23,7 +23,7 @@ export default function SignUpForm() {
 
     const response = await signup(form.username, form.email, form.password);
     if (response.success) {
-      router.push('/');
+      finishSignup();
     }
   };
 

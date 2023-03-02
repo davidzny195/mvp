@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   FormControl,
   InputLabel,
@@ -7,7 +8,10 @@ import {
   Button,
   Select,
   MenuItem,
+  Typography,
 } from '@mui/material';
+import { useCreatePokerRoom } from '../../api/rooms';
+import { useSelector } from 'react-redux';
 
 interface GameForm {
   roomName: string;
@@ -19,14 +23,33 @@ interface GameForm {
 
 export default function CreateGame() {
   const [form, setForm] = useState<GameForm>({
-    roomName: '',
+    roomName: 'Room 1',
     roomType: 'brokie',
     playerCount: 2,
-    smallBlind: 1,
-    bigBlind: 2,
+    smallBlind: 2,
+    bigBlind: 4,
   });
+  const router = useRouter();
+  const createRoomMutation = useCreatePokerRoom();
+  const {
+    currentUser: { userId },
+  } = useSelector((state: any) => state.user);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const creation = await createRoomMutation.mutateAsync({
+        ownerId: userId,
+        ...form,
+      });
+      if (creation.success) {
+        router.push(`/room/${creation.roomId}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,14 +62,13 @@ export default function CreateGame() {
     deathMatch: 10000,
   };
 
-  // useEffect to make small blind 1/2 of big blind and make even only
-
   return (
     <Box className="absolute top-[30%] left-[45%] bg-white">
       <form
         className="flex flex-col space-y-6 px-10 py-4"
         onSubmit={handleSubmit}
       >
+        <Typography>Create a room</Typography>
         <TextField
           name="roomName"
           label="Room name"
@@ -80,7 +102,7 @@ export default function CreateGame() {
           name="smallBlind"
           label="Small Blind"
           type="number"
-          inputProps={{ min: 1, step: steps[form.roomType] }}
+          inputProps={{ min: 2, step: steps[form.roomType] }}
           value={form.smallBlind}
           onChange={handleChange}
         />
@@ -88,7 +110,7 @@ export default function CreateGame() {
           name="bigBlind"
           label="Big Blind"
           type="number"
-          inputProps={{ min: 2, step: steps[form.roomType] }}
+          inputProps={{ min: 4, step: steps[form.roomType] }}
           value={form.bigBlind}
           onChange={handleChange}
         />

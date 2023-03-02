@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { login } from '../api/auth';
+import { login } from '../../api/auth';
 import { UserForm } from './types';
 
 export default function LoginForm() {

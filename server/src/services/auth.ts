@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 export default {
-  login: async (email: string, password: string): Promise<string> => {
+  login: async (email: string, password: string): Promise<any> => {
     const user = await prisma.users.findUnique({ where: { email } });
     if (!user) {
       throw new Error('No user');
@@ -22,7 +22,8 @@ export default {
     const token = jwt.sign(payload, process.env.SECRET_KEY!, {
       expiresIn: '24h',
     });
-    return token;
+
+    return { token, user };
   },
 
   signup: async (
@@ -31,7 +32,6 @@ export default {
     password: string
   ): Promise<any> => {
     const existingUser = await prisma.users.findUnique({ where: { email } });
-
     if (existingUser) {
       throw new Error('Email exists');
     }

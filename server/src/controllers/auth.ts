@@ -5,10 +5,10 @@ export default {
   login: async (req: Request, res: Response): Promise<void> => {
     try {
       const { email, password } = req.body;
-      const token = await authService.login(email, password);
+      const result = await authService.login(email, password);
       res
         .status(200)
-        .send({ success: true, message: 'Successfully logged In', token });
+        .send({ success: true, message: 'Successfully logged In', ...result });
     } catch (error) {
       res.status(400).send({ success: false, error: error.message });
     }
