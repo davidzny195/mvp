@@ -2,7 +2,23 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default {
-  getRooms: async (): Promise<any> => {},
+  getRooms: async (count: number, page: number): Promise<any> => {
+    const skip = count * (page - 1);
+    const take = count;
+    try {
+      const rooms = await prisma.pokerRooms.findMany({
+        orderBy: {
+          updated_at: 'desc',
+        },
+        skip,
+        take,
+      });
+
+      return rooms;
+    } catch (error) {
+      throw new Error('Error getting rooms');
+    }
+  },
   getRoom: async (roomId: number): Promise<any> => {
     try {
       const room = await prisma.pokerRooms.findUnique({ where: { roomId } });

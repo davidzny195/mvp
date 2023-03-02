@@ -33,7 +33,7 @@ export default function CreateGame() {
   const createRoomMutation = useCreatePokerRoom();
   const {
     currentUser: { userId },
-  } = useSelector((state: any) => state.user);
+  } = useSelector((state: any) => state.globalData);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { WithToken, ResponseData } from './types';
 import Cookies from 'js-cookie';
 import store from '../redux/store';
-import { updateCurrentUser } from '../redux/user';
+import { updateCurrentUser } from '../redux/state';
 
 export async function login(email: string, password: string) {
   try {

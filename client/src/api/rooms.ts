@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useMutation, UseMutationResult } from 'react-query';
+import { useQuery, useMutation, UseMutationResult } from 'react-query';
 import { CreatePokerRoomParams } from './types';
 
 export const useCreatePokerRoom = (): UseMutationResult<
@@ -21,4 +21,23 @@ export const useCreatePokerRoom = (): UseMutationResult<
   };
 
   return useMutation(createPokerRoom);
+};
+
+export const useFetchRooms = (count: number = 10, page: number = 1) => {
+  const fetchRooms = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.BE_API_URL}/rooms`, {
+        params: {
+          count,
+          page,
+        },
+      });
+
+      return data;
+    } catch (error) {
+      throw new Error('Error fetching rooms');
+    }
+  };
+
+  return useQuery(['pokerRooms', count, page], fetchRooms);
 };
