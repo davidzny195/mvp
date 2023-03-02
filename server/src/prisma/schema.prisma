@@ -17,7 +17,6 @@ model Users {
   updated_at     DateTime        @default(now()) @updatedAt
   PlayerActions  PlayerActions[]
   GameHistory    GameHistory[]
-  RoomPlayers    RoomPlayers[]
   UserStatistics UserStatistics?
   GameResult     GameResult[]
   PlayerResult   PlayerResult[]
@@ -47,6 +46,8 @@ model PokerRooms {
   smallBlind         Int
   bigBlind           Int
   gamesCount         Int      @default(0)
+  isPrivate          Boolean  @default(false)
+  roomPassword       Int?
   canJoin            Boolean  @default(true)
   ownerId            Int
   created_at         DateTime @default(now())
@@ -59,13 +60,18 @@ model PokerRooms {
 }
 
 model RoomPlayers {
-  id       Int     @id @default(autoincrement())
-  roomId   Int
-  seatNum  Int     @unique
-  playerId Int
-  isActive Boolean @default(true)
+  id      Int  @id @default(autoincrement())
+  roomId  Int
+  player1 Int?
+  player2 Int?
+  player3 Int?
+  player4 Int?
+  player5 Int?
+  player6 Int?
+  player7 Int?
+  player8 Int?
+  player9 Int?
 
-  user         Users       @relation(fields: [playerId], references: [userId])
   game         PokerRooms  @relation(fields: [roomId], references: [roomId])
   GameResult   GameResult? @relation(fields: [gameResultId], references: [id])
   gameResultId Int?

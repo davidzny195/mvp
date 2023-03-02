@@ -53,12 +53,12 @@ export default {
 
   getSeating: async (req: Request, res: Response): Promise<any> => {},
   assignSeating: async (req: Request, res: Response): Promise<any> => {
-    const { roomId, playerId, seatNum } = req.body;
+    const { roomId, playerId, position } = req.body;
     try {
       const roomPlayer = await roomService.assignSeating(
         roomId,
         playerId,
-        seatNum
+        position
       );
       res
         .status(201)

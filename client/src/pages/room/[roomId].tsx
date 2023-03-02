@@ -8,8 +8,8 @@ function PokerRoom() {
 
   return (
     <Layout>
-      <Box className="w-full h-full relative">
-        <div className="absolute left-[15%] top-[20%] w-[65em] bg-[#4AAD4A] h-1/3 rounded-[10vw] border-[0.8em] border-[#A95555]"></div>
+      <Box className="w-full h-full">
+        <div className="m-auto w-[65em] bg-[#4AAD4A] h-1/3 rounded-[10vw] border-[0.8em] border-[#A95555]"></div>
       </Box>
     </Layout>
   );

@@ -57,14 +57,13 @@ export default {
   assignSeating: async (
     roomId: number,
     playerId: number,
-    seatNum: number
+    position: string
   ): Promise<any> => {
     try {
       const roomPlayer = await prisma.roomPlayers.create({
         data: {
           roomId,
-          playerId,
-          seatNum,
+          [position]: playerId,
         },
       });
       return roomPlayer;
