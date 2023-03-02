@@ -12,6 +12,8 @@ model Users {
   username      String          @unique
   email         String          @unique
   password      String
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
   pokerRoom     PokerRooms?
   PlayersInGame PlayersInGame[]
   PlayerActions PlayerActions[]
@@ -21,13 +23,15 @@ model Users {
 }
 
 model PokerRooms {
-  roomId             Int    @id @default(autoincrement())
+  roomId             Int      @id @default(autoincrement())
   playerCount        Int
   currentPlayerCount Int
   roomType           String
   smallBlind         Int
   bigBlind           Int
-  ownerId            Int    @unique
+  ownerId            Int      @unique
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
 
   owner         Users           @relation(fields: [ownerId], references: [userId])
   PlayersInGame PlayersInGame[]
@@ -42,8 +46,8 @@ model PokerRooms {
 model GameSeats {
   id       Int  @id @default(autoincrement())
   roomId   Int
-  seatNum  Int // The number of the seat (starting from 1)
-  playerId Int? // The ID of the player assigned to this seat (if any)
+  seatNum  Int
+  playerId Int?
 
   game PokerRooms @relation(fields: [roomId], references: [roomId])
 

@@ -39,8 +39,6 @@ export default function CreateGame() {
     deathMatch: 10000,
   };
 
-  // useEffect to make small blind 1/2 of big blind and make even only
-
   return (
     <Box className="absolute top-[30%] left-[45%] bg-white">
       <form

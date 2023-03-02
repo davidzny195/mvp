@@ -31,7 +31,6 @@ export default {
     password: string
   ): Promise<any> => {
     const existingUser = await prisma.users.findUnique({ where: { email } });
-
     if (existingUser) {
       throw new Error('Email exists');
     }
