@@ -7,6 +7,7 @@ import {
   Button,
   Select,
   MenuItem,
+  Typography,
 } from '@mui/material';
 
 interface GameForm {
@@ -22,11 +23,13 @@ export default function CreateGame() {
     roomName: '',
     roomType: 'brokie',
     playerCount: 2,
-    smallBlind: 1,
-    bigBlind: 2,
+    smallBlind: 2,
+    bigBlind: 4,
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+  };
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,6 +48,7 @@ export default function CreateGame() {
         className="flex flex-col space-y-6 px-10 py-4"
         onSubmit={handleSubmit}
       >
+        <Typography>Create a room</Typography>
         <TextField
           name="roomName"
           label="Room name"

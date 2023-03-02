@@ -9,7 +9,7 @@ function Dashboard() {
 
   return (
     <Layout>
-      <div className="h-full w-full flex justify-center items-center">
+      <div className="w-full flex justify-center items-center">
         <Button variant="contained" onClick={() => setOpen(true)}>
           Create Game
         </Button>

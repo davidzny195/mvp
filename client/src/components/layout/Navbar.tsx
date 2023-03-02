@@ -7,7 +7,7 @@ export default function Navbar() {
   } = useSelector((state: any) => state.user);
 
   return (
-    <div className="w-full h-16 p-4">
+    <div className="w-full p-4">
       <div className="flex items-center justify-between">
         <div className="text-xl text-white">DOWN BAD</div>
         <div className="flex items-center space-x-4">
