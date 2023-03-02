@@ -8,14 +8,14 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="bg-[#28282B] w-screen h-screen">
-      <div className="flex h-full">
+    <div className="bg-[#28282B]">
+      <div className="flex h-screen w-screen">
         <div>
           <Sidebar />
         </div>
-        <div className="w-full">
+        <div className="w-full h-full overflow-y-hidden">
           <Navbar />
-          <div className="p-8">{children}</div>
+          <div className="h-full">{children}</div>
         </div>
       </div>
     </div>

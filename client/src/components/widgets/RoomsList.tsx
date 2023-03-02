@@ -10,7 +10,10 @@ export default function RoomsList() {
       <Box className="space-y-4 my-2">
         {!isLoading &&
           data.rooms.map((room: any) => (
-            <Box key={room.roomId} className="text-[#CCCCCC] text-sm">
+            <Box
+              key={room.roomId}
+              className="text-[#CCCCCC] text-sm bg-[#212121] p-2 cursor-pointer rounded-md"
+            >
               <Box className="flex justify-between">
                 <Box>{room.roomName}</Box>
                 {room.canJoin && <Box className="text-green-500">Open</Box>}
