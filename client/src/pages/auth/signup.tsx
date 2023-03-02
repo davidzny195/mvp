@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { signup } from '../api/auth';
+import { signup } from '../../api/auth';
 import { SignUp } from './types';
 
 export default function SignUpForm() {

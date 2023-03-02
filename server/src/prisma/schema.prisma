@@ -13,11 +13,11 @@ model Users {
   email         String          @unique
   password      String
   created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
+  updated_at    DateTime        @default(now()) @updatedAt
   pokerRoom     PokerRooms?
-  PlayersInGame PlayersInGame[]
   PlayerActions PlayerActions[]
   GameHistory   GameHistory[]
+  GameSeats     GamePlayers[]
 
   @@map("users")
 }
@@ -26,6 +26,8 @@ model PokerRooms {
   roomId             Int      @id @default(autoincrement())
   playerCount        Int
   currentPlayerCount Int
+  roomName           String
+  canJoin            Boolean  @default(true)
   roomType           String
   smallBlind         Int
   bigBlind           Int
@@ -34,36 +36,25 @@ model PokerRooms {
   updated_at         DateTime @updatedAt
 
   owner         Users           @relation(fields: [ownerId], references: [userId])
-  PlayersInGame PlayersInGame[]
   PlayerActions PlayerActions[]
   GameState     GameState[]
   GameHistory   GameHistory[]
-  GameSeats     GameSeats[]
+  GameSeats     GamePlayers[]
 
   @@map("poker_rooms")
 }
 
-model GameSeats {
-  id       Int  @id @default(autoincrement())
+model GamePlayers {
+  id       Int     @id @default(autoincrement())
   roomId   Int
   seatNum  Int
-  playerId Int?
-
-  game PokerRooms @relation(fields: [roomId], references: [roomId])
-
-  @@map("game_seats")
-}
-
-model PlayersInGame {
-  playerId  Int
-  roomId    Int
-  joinOrder Int
+  playerId Int
+  isActive Boolean @default(true)
 
   user Users      @relation(fields: [playerId], references: [userId])
-  room PokerRooms @relation(fields: [roomId], references: [roomId])
+  game PokerRooms @relation(fields: [roomId], references: [roomId])
 
-  @@id([playerId, roomId])
-  @@map("players_in_game")
+  @@map("game_players")
 }
 
 model PlayerActions {
@@ -86,6 +77,7 @@ model PlayerActions {
 model GameState {
   id               Int      @id @default(autoincrement())
   roomId           Int
+  roomPlayers      String[] //need to contain whether or not they folded maybe userId: true/false
   smallBlindPlayer Int
   bigBlindPlayer   Int
   currentPot       Float
