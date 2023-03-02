@@ -156,16 +156,13 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "user_statistics_userId_key" ON "user_statistics"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "poker_rooms_ownerId_key" ON "poker_rooms"("ownerId");
+CREATE UNIQUE INDEX "poker_rooms_roomId_key" ON "poker_rooms"("roomId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "game_state_gameId_key" ON "game_state"("gameId");
 
 -- AddForeignKey
 ALTER TABLE "user_statistics" ADD CONSTRAINT "user_statistics_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "poker_rooms" ADD CONSTRAINT "poker_rooms_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "game_players" ADD CONSTRAINT "game_players_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -37,7 +37,9 @@ export default function Login() {
           <div className="flex justify-end">
             <div>
               {activeTab === 0 && <LoginForm />}
-              {activeTab === 1 && <SignUpForm />}
+              {activeTab === 1 && (
+                <SignUpForm finishSignup={(e: any) => handleTabChange(e, 0)} />
+              )}
             </div>
           </div>
         </Container>

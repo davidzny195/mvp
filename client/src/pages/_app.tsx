@@ -1,8 +1,11 @@
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Head from 'next/head';
 import store from '../redux/store';
 import { AppProps } from 'next/app';
 import '../styles/globals.css';
+
+const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +16,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
       </Provider>
     </div>
   );

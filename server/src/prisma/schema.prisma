@@ -15,7 +15,6 @@ model Users {
   balance        Float?          @default(0)
   created_at     DateTime        @default(now())
   updated_at     DateTime        @default(now()) @updatedAt
-  pokerRoom      PokerRooms?
   PlayerActions  PlayerActions[]
   GameHistory    GameHistory[]
   RoomPlayers    RoomPlayers[]
@@ -40,7 +39,7 @@ model UserStatistics {
 }
 
 model PokerRooms {
-  roomId             Int      @id @default(autoincrement())
+  roomId             Int      @id @unique @default(autoincrement())
   playerCount        Int
   currentPlayerCount Int      @default(1)
   roomName           String
@@ -49,11 +48,10 @@ model PokerRooms {
   bigBlind           Int
   gamesCount         Int      @default(0)
   canJoin            Boolean  @default(true)
-  ownerId            Int      @unique
+  ownerId            Int
   created_at         DateTime @default(now())
   updated_at         DateTime @updatedAt
 
-  owner       Users         @relation(fields: [ownerId], references: [userId])
   RoomPlayers RoomPlayers[]
   Game        Game[]
 

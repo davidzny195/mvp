@@ -17,6 +17,7 @@ export default {
   initializeRoom: async (req: Request, res: Response): Promise<any> => {
     const { ownerId, roomName, roomType, playerCount, smallBlind, bigBlind } =
       req.body;
+
     try {
       const response = await roomService.initializeRoom(
         ownerId,
@@ -29,9 +30,10 @@ export default {
       return res.status(201).send({
         success: true,
         message: 'Successfully created room',
-        response,
+        roomId: response.roomId,
       });
     } catch (error) {
+      console.log(error);
       res.status(400).send({ success: false, error: error.message });
     }
   },
