@@ -75,11 +75,12 @@ model RoomPlayers {
 }
 
 model Game {
-  id         Int    @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   roomId     Int
   gameType   String
   smallBlind Int
   bigBlind   Int
+  isFinished Boolean? @default(false)
 
   room          PokerRooms      @relation(fields: [roomId], references: [roomId])
   GameState     GameState[]

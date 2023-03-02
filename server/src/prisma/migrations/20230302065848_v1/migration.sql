@@ -59,6 +59,7 @@ CREATE TABLE "Game" (
     "gameType" TEXT NOT NULL,
     "smallBlind" INTEGER NOT NULL,
     "bigBlind" INTEGER NOT NULL,
+    "isFinished" BOOLEAN DEFAULT false,
 
     CONSTRAINT "Game_pkey" PRIMARY KEY ("id")
 );
