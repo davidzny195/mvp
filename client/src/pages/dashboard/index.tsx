@@ -3,7 +3,6 @@ import { Layout } from '../../components';
 import RouteGuard from '../../routes/RouteGuard';
 import { Button, Modal } from '@mui/material';
 import CreateGame from '../../components/modals/CreateGame';
-import { ModalProps } from './types';
 
 function Dashboard() {
   const [open, setOpen] = useState(false);
