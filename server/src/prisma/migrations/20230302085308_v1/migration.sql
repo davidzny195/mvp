@@ -32,6 +32,7 @@ CREATE TABLE "poker_rooms" (
     "roomType" TEXT NOT NULL,
     "smallBlind" INTEGER NOT NULL,
     "bigBlind" INTEGER NOT NULL,
+    "gamesCount" INTEGER NOT NULL DEFAULT 0,
     "canJoin" BOOLEAN NOT NULL DEFAULT true,
     "ownerId" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -57,6 +58,7 @@ CREATE TABLE "Game" (
     "id" SERIAL NOT NULL,
     "roomId" INTEGER NOT NULL,
     "gameType" TEXT NOT NULL,
+    "gameNumber" INTEGER NOT NULL,
     "smallBlind" INTEGER NOT NULL,
     "bigBlind" INTEGER NOT NULL,
     "isFinished" BOOLEAN DEFAULT false,
@@ -89,13 +91,12 @@ CREATE TABLE "game_state" (
     "flopCards" TEXT[],
     "turnCard" TEXT,
     "riverCard" TEXT,
-    "cardsRemaining" INTEGER NOT NULL,
-    "cardsDealt" INTEGER NOT NULL,
-    "cardsBurned" INTEGER NOT NULL,
+    "cardsRemaining" INTEGER NOT NULL DEFAULT 52,
+    "cardsDealt" INTEGER NOT NULL DEFAULT 0,
+    "cardsBurned" INTEGER NOT NULL DEFAULT 0,
     "lastAction" TEXT,
-    "gameStage" TEXT NOT NULL,
     "currentPlayer" INTEGER,
-    "bettingRound" TEXT,
+    "bettingRound" INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT "game_state_pkey" PRIMARY KEY ("id")
 );
@@ -156,6 +157,9 @@ CREATE UNIQUE INDEX "user_statistics_userId_key" ON "user_statistics"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "poker_rooms_ownerId_key" ON "poker_rooms"("ownerId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "game_state_gameId_key" ON "game_state"("gameId");
 
 -- AddForeignKey
 ALTER TABLE "user_statistics" ADD CONSTRAINT "user_statistics_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;

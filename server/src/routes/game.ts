@@ -10,7 +10,7 @@ router.patch('/complete', gameController.endGame);
 // Game State
 router.get('/state/:gameId', gameController.getCurrentState);
 router.post('/init-state', gameController.initializeState);
-router.patch('/update-state', gameController.updateState);
+router.patch('/update-state/:gameId', gameController.updateState);
 
 // Game History
 router.get('/history/:gameId', gameController.getHistory);

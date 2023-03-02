@@ -47,6 +47,7 @@ model PokerRooms {
   roomType           String
   smallBlind         Int
   bigBlind           Int
+  gamesCount         Int      @default(0)
   canJoin            Boolean  @default(true)
   ownerId            Int      @unique
   created_at         DateTime @default(now())
@@ -78,6 +79,7 @@ model Game {
   id         Int      @id @default(autoincrement())
   roomId     Int
   gameType   String
+  gameNumber Int
   smallBlind Int
   bigBlind   Int
   isFinished Boolean? @default(false)
@@ -108,7 +110,7 @@ model PlayerActions {
 
 model GameState {
   id               Int      @id @default(autoincrement())
-  gameId           Int
+  gameId           Int      @unique
   roomPlayers      String[] //need to contain whether or not they folded maybe userId: true/false
   smallBlindPlayer Int
   bigBlindPlayer   Int
@@ -116,13 +118,12 @@ model GameState {
   flopCards        String[]
   turnCard         String?
   riverCard        String?
-  cardsRemaining   Int
-  cardsDealt       Int
-  cardsBurned      Int
+  cardsRemaining   Int      @default(52)
+  cardsDealt       Int      @default(0)
+  cardsBurned      Int      @default(0)
   lastAction       String?
-  gameStage        String
   currentPlayer    Int?
-  bettingRound     String?
+  bettingRound     Int      @default(1)
 
   game Game @relation(fields: [gameId], references: [id])
 
