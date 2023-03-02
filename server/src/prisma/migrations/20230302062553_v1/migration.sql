@@ -27,8 +27,11 @@ CREATE TABLE "user_statistics" (
 CREATE TABLE "poker_rooms" (
     "roomId" SERIAL NOT NULL,
     "playerCount" INTEGER NOT NULL,
-    "currentPlayerCount" INTEGER NOT NULL,
+    "currentPlayerCount" INTEGER NOT NULL DEFAULT 1,
     "roomName" TEXT NOT NULL,
+    "roomType" TEXT NOT NULL,
+    "smallBlind" INTEGER NOT NULL,
+    "bigBlind" INTEGER NOT NULL,
     "canJoin" BOOLEAN NOT NULL DEFAULT true,
     "ownerId" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -53,7 +56,7 @@ CREATE TABLE "game_players" (
 CREATE TABLE "Game" (
     "id" SERIAL NOT NULL,
     "roomId" INTEGER NOT NULL,
-    "roomType" TEXT NOT NULL,
+    "gameType" TEXT NOT NULL,
     "smallBlind" INTEGER NOT NULL,
     "bigBlind" INTEGER NOT NULL,
 

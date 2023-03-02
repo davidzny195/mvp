@@ -2,11 +2,13 @@ import express from 'express';
 const router = express.Router();
 import { roomController } from '../controllers';
 
-router.get('/rooms', roomController.getRooms);
-router.get('/room/:roomId', roomController.getRoom);
-router.post('/create-room', roomController.initializeRoom);
-router.put('/update-room', roomController.updateRoom);
+router.get('/', roomController.getRooms);
+router.get('/:roomId', roomController.getRoom);
+router.post('/create', roomController.initializeRoom);
+router.patch('/update', roomController.updateRoom);
+
 router.get('/seating', roomController.getSeating);
-router.post('/assign-seat/:userId', roomController.assignSeating);
+router.post('/join', roomController.assignSeating);
+router.delete('/remove', roomController.removePlayer);
 
 export default router;

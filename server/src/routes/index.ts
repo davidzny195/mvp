@@ -6,7 +6,7 @@ import userRoutes from './user';
 const router = express.Router();
 
 router.use('/auth', authRoutes);
-router.use('/room', roomRoutes);
+router.use('/rooms', roomRoutes);
 router.use('/user', userRoutes);
 
 export default function () {

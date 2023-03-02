@@ -42,8 +42,11 @@ model UserStatistics {
 model PokerRooms {
   roomId             Int      @id @default(autoincrement())
   playerCount        Int
-  currentPlayerCount Int
+  currentPlayerCount Int      @default(1)
   roomName           String
+  roomType           String
+  smallBlind         Int
+  bigBlind           Int
   canJoin            Boolean  @default(true)
   ownerId            Int      @unique
   created_at         DateTime @default(now())
@@ -74,7 +77,7 @@ model RoomPlayers {
 model Game {
   id         Int    @id @default(autoincrement())
   roomId     Int
-  roomType   String
+  gameType   String
   smallBlind Int
   bigBlind   Int
 
