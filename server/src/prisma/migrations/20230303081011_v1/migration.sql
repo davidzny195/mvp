@@ -33,6 +33,8 @@ CREATE TABLE "poker_rooms" (
     "smallBlind" INTEGER NOT NULL,
     "bigBlind" INTEGER NOT NULL,
     "gamesCount" INTEGER NOT NULL DEFAULT 0,
+    "isPrivate" BOOLEAN NOT NULL DEFAULT false,
+    "roomPassword" INTEGER,
     "canJoin" BOOLEAN NOT NULL DEFAULT true,
     "ownerId" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -45,9 +47,15 @@ CREATE TABLE "poker_rooms" (
 CREATE TABLE "game_players" (
     "id" SERIAL NOT NULL,
     "roomId" INTEGER NOT NULL,
-    "seatNum" INTEGER NOT NULL,
-    "playerId" INTEGER NOT NULL,
-    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "player1" INTEGER,
+    "player2" INTEGER,
+    "player3" INTEGER,
+    "player4" INTEGER,
+    "player5" INTEGER,
+    "player6" INTEGER,
+    "player7" INTEGER,
+    "player8" INTEGER,
+    "player9" INTEGER,
     "gameResultId" INTEGER,
 
     CONSTRAINT "game_players_pkey" PRIMARY KEY ("id")
@@ -159,13 +167,13 @@ CREATE UNIQUE INDEX "user_statistics_userId_key" ON "user_statistics"("userId");
 CREATE UNIQUE INDEX "poker_rooms_roomId_key" ON "poker_rooms"("roomId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "game_players_roomId_key" ON "game_players"("roomId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "game_state_gameId_key" ON "game_state"("gameId");
 
 -- AddForeignKey
 ALTER TABLE "user_statistics" ADD CONSTRAINT "user_statistics_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "game_players" ADD CONSTRAINT "game_players_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "users"("userId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "game_players" ADD CONSTRAINT "game_players_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "poker_rooms"("roomId") ON DELETE RESTRICT ON UPDATE CASCADE;

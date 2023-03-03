@@ -3,15 +3,28 @@ import { roomService } from '../services';
 
 export default {
   getRooms: async (req: Request, res: Response): Promise<any> => {
-    console.log('no');
+    try {
+      const { count, page } = req.query;
+      const rooms = await roomService.getRooms(
+        parseInt(count as string),
+        parseInt(page as string)
+      );
+      res
+        .status(200)
+        .send({ success: true, message: 'Fetch rooms success', rooms });
+    } catch (error) {
+      res.status(500).send({ message: 'Error fetching rooms' });
+    }
   },
   getRoom: async (req: Request, res: Response): Promise<any> => {
     try {
       const { roomId } = req.params;
       const room = await roomService.getRoom(Number(roomId));
-      res.status(200).json({ success: true, room });
+      res
+        .status(200)
+        .send({ success: true, message: `Fetch room ${roomId} success`, room });
     } catch (error) {
-      res.status(400).json({ success: false, message: 'Error getting room' });
+      res.status(400).send({ success: false, message: 'Error getting room' });
     }
   },
   initializeRoom: async (req: Request, res: Response): Promise<any> => {
@@ -33,26 +46,70 @@ export default {
         roomId: response.roomId,
       });
     } catch (error) {
-      console.log(error);
       res.status(400).send({ success: false, error: error.message });
     }
   },
   updateRoom: async (req: Request, res: Response): Promise<any> => {},
 
-  getSeating: async (req: Request, res: Response): Promise<any> => {},
+  deleteRoom: async (req: Request, res: Response): Promise<any> => {
+    const { roomId } = req.params;
+
+    try {
+      const deletedRoom = await roomService.deleteRoom(Number(roomId));
+      return res.status(203).send({
+        success: true,
+        message: 'Successfully deleted room',
+        deletedRoom,
+      });
+    } catch (error) {
+      res.status(400).send({ success: false, error: error.message });
+    }
+  },
+
+  getSeating: async (req: Request, res: Response): Promise<any> => {
+    const { roomId } = req.params;
+    console.log(roomId);
+    try {
+      const seating = await roomService.getSeating(Number(roomId));
+      return res.status(200).send({
+        success: true,
+        message: 'Successfully fetched seating',
+        seating,
+      });
+    } catch (error) {
+      res.status(400).send({ success: false, error: error.message });
+    }
+  },
   assignSeating: async (req: Request, res: Response): Promise<any> => {
-    const { roomId, playerId, seatNum } = req.body;
+    const { roomId, playerId, position } = req.body;
     try {
       const roomPlayer = await roomService.assignSeating(
         roomId,
         playerId,
-        seatNum
+        position
       );
       res
         .status(201)
         .send({ success: true, message: 'Assigned seat', roomPlayer });
     } catch (error) {
       res.status(500).send({ success: false, error: error.message });
+    }
+  },
+  joinRoom: async (req: Request, res: Response): Promise<any> => {
+    const { roomId, playerId, position } = req.body;
+    try {
+      const updatedSeating = await roomService.joinRoom(
+        Number(roomId),
+        playerId,
+        position
+      );
+      res.status(200).send({
+        success: true,
+        message: 'Successfully joined room',
+        seating: updatedSeating,
+      });
+    } catch (error) {
+      res.status(400).send({ success: false, error: error.message });
     }
   },
   removePlayer: async (req: Request, res: Response): Promise<any> => {},

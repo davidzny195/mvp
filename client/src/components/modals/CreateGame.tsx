@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAssignSeating } from '../../api/rooms';
 import {
   FormControl,
   InputLabel,
@@ -22,6 +23,7 @@ interface GameForm {
 }
 
 export default function CreateGame() {
+  const assignSeating = useAssignSeating();
   const [form, setForm] = useState<GameForm>({
     roomName: 'Room 1',
     roomType: 'brokie',
@@ -33,7 +35,7 @@ export default function CreateGame() {
   const createRoomMutation = useCreatePokerRoom();
   const {
     currentUser: { userId },
-  } = useSelector((state: any) => state.user);
+  } = useSelector((state: any) => state.globalData);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -44,6 +46,11 @@ export default function CreateGame() {
         ...form,
       });
       if (creation.success) {
+        await assignSeating.mutateAsync({
+          roomId: creation.roomId,
+          playerId: userId,
+          position: 'player1',
+        });
         router.push(`/room/${creation.roomId}`);
       }
     } catch (error) {
@@ -52,7 +59,9 @@ export default function CreateGame() {
   };
 
   const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const value =
+      e.target.type === 'number' ? Number(e.target.value) : e.target.value;
+    setForm({ ...form, [e.target.name]: value });
   };
 
   const steps: Record<GameForm['roomType'], number> = {

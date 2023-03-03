@@ -18,7 +18,7 @@ export default function Login() {
       className="w-screen h-screen bg-cover"
       // style={{ backgroundImage: "url('/assets/bg1.jpg')" }}
     >
-      <Box className="w-1/2 h-screen absolute top-0 left-0 bg-[#FF8C00] rounded-br-[50vw]" />
+      <Box className="w-1/2 h-screen absolute top-0 left-0 bg-[#35654D] rounded-br-[50vw]" />
       <div className="max-w-screen-2xl m-auto">
         <Container maxWidth="md" className="pt-64">
           <Box

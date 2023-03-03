@@ -2,7 +2,23 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default {
-  getRooms: async (): Promise<any> => {},
+  getRooms: async (count: number, page: number): Promise<any> => {
+    const skip = count * (page - 1);
+    const take = count;
+    try {
+      const rooms = await prisma.pokerRooms.findMany({
+        orderBy: {
+          updated_at: 'desc',
+        },
+        skip,
+        take,
+      });
+
+      return rooms;
+    } catch (error) {
+      throw new Error('Error getting rooms');
+    }
+  },
   getRoom: async (roomId: number): Promise<any> => {
     try {
       const room = await prisma.pokerRooms.findUnique({ where: { roomId } });
@@ -37,18 +53,38 @@ export default {
     }
   },
   updateRoom: async (): Promise<any> => {},
-  getSeating: async (): Promise<any> => {},
+
+  deleteRoom: async (roomId: number): Promise<any> => {
+    return await prisma.pokerRooms.delete({
+      where: { roomId },
+    });
+  },
+  getSeating: async (roomId: number): Promise<any> => {
+    return await prisma.roomPlayers.findUnique({
+      where: { roomId },
+      select: {
+        player1: true,
+        player2: true,
+        player3: true,
+        player4: true,
+        player5: true,
+        player6: true,
+        player7: true,
+        player8: true,
+        player9: true,
+      },
+    });
+  },
   assignSeating: async (
     roomId: number,
     playerId: number,
-    seatNum: number
+    position: string
   ): Promise<any> => {
     try {
       const roomPlayer = await prisma.roomPlayers.create({
         data: {
           roomId,
-          playerId,
-          seatNum,
+          [position]: playerId,
         },
       });
       return roomPlayer;
@@ -56,5 +92,24 @@ export default {
       throw new Error(error);
     }
   },
+  joinRoom: async (
+    roomId: number,
+    playerId: number,
+    position: number
+  ): Promise<any> => {
+    const player = `player${position}`;
+    try {
+      const updatedSeating = await prisma.roomPlayers.update({
+        where: { roomId },
+        data: {
+          [player]: playerId,
+        },
+      });
+      return updatedSeating;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   removePlayer: async (): Promise<any> => {},
 };
