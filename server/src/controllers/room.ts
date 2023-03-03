@@ -51,7 +51,34 @@ export default {
   },
   updateRoom: async (req: Request, res: Response): Promise<any> => {},
 
-  getSeating: async (req: Request, res: Response): Promise<any> => {},
+  deleteRoom: async (req: Request, res: Response): Promise<any> => {
+    const { roomId } = req.params;
+
+    try {
+      const deletedRoom = await roomService.deleteRoom(Number(roomId));
+      return res.status(203).send({
+        success: true,
+        message: 'Successfully deleted room',
+        deletedRoom,
+      });
+    } catch (error) {
+      res.status(400).send({ success: false, error: error.message });
+    }
+  },
+
+  getSeating: async (req: Request, res: Response): Promise<any> => {
+    const { roomId } = req.params;
+    try {
+      const seating = await roomService.getSeating(Number(roomId));
+      return res.status(200).send({
+        success: true,
+        message: 'Successfully fetched seating',
+        seating,
+      });
+    } catch (error) {
+      res.status(400).send({ success: false, error: error.message });
+    }
+  },
   assignSeating: async (req: Request, res: Response): Promise<any> => {
     const { roomId, playerId, position } = req.body;
     try {

@@ -61,7 +61,7 @@ model PokerRooms {
 
 model RoomPlayers {
   id      Int  @id @default(autoincrement())
-  roomId  Int
+  roomId  Int  @unique
   player1 Int?
   player2 Int?
   player3 Int?

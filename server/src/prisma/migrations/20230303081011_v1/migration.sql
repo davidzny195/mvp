@@ -167,6 +167,9 @@ CREATE UNIQUE INDEX "user_statistics_userId_key" ON "user_statistics"("userId");
 CREATE UNIQUE INDEX "poker_rooms_roomId_key" ON "poker_rooms"("roomId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "game_players_roomId_key" ON "game_players"("roomId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "game_state_gameId_key" ON "game_state"("gameId");
 
 -- AddForeignKey

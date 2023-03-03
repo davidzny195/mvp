@@ -53,7 +53,28 @@ export default {
     }
   },
   updateRoom: async (): Promise<any> => {},
-  getSeating: async (): Promise<any> => {},
+
+  deleteRoom: async (roomId: number): Promise<any> => {
+    return await prisma.pokerRooms.delete({
+      where: { roomId },
+    });
+  },
+  getSeating: async (roomId: number): Promise<any> => {
+    return await prisma.roomPlayers.findUnique({
+      where: { roomId },
+      select: {
+        player1: true,
+        player2: true,
+        player3: true,
+        player4: true,
+        player5: true,
+        player6: true,
+        player7: true,
+        player8: true,
+        player9: true,
+      },
+    });
+  },
   assignSeating: async (
     roomId: number,
     playerId: number,
