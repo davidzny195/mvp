@@ -1,10 +1,12 @@
-import { Box, Typography, Button } from '@mui/material';
+import { useState } from 'react';
+import { Box, Typography, Button, Modal } from '@mui/material';
+import SelectSeat from '../modals/SelectSeat';
 import { useFetchRooms } from '../../api/rooms';
 
 export default function RoomsList() {
   const { data, isLoading } = useFetchRooms();
-
-  const handleJoin = () => {};
+  const [roomId, setRoomId] = useState(null);
+  const [open, setOpen] = useState(false);
 
   return (
     <Box className="p-4 my-4 bg-[#333333] rounded-md shadow-md text-[#CCCCCC]">
@@ -21,7 +23,13 @@ export default function RoomsList() {
                   <Box>{room.roomName}</Box>
                   {room.canJoin && <Box className="text-green-500">Open</Box>}
                 </Box>
-                <Button size="small" onClick={handleJoin}>
+                <Button
+                  size="small"
+                  onClick={() => {
+                    setRoomId(room.roomId);
+                    setOpen(true);
+                  }}
+                >
                   Join
                 </Button>
               </Box>
@@ -39,6 +47,13 @@ export default function RoomsList() {
             </Box>
           ))}
       </Box>
+      {roomId && (
+        <Modal open={open} onClose={() => setOpen(false)}>
+          <div>
+            <SelectSeat roomId={roomId} />
+          </div>
+        </Modal>
+      )}
     </Box>
   );
 }

@@ -92,5 +92,24 @@ export default {
       throw new Error(error);
     }
   },
+  joinRoom: async (
+    roomId: number,
+    playerId: number,
+    position: number
+  ): Promise<any> => {
+    const player = `player${position}`;
+    try {
+      const updatedSeating = await prisma.roomPlayers.update({
+        where: { roomId },
+        data: {
+          [player]: playerId,
+        },
+      });
+      return updatedSeating;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   removePlayer: async (): Promise<any> => {},
 };
