@@ -1,13 +1,7 @@
 import axios from 'axios';
-import {
-  useQuery,
-  useQueryClient,
-  useMutation,
-  UseMutationResult,
-} from 'react-query';
+import { useQuery, useMutation, UseMutationResult } from 'react-query';
+import queryClient from './queryClient';
 import { CreatePokerRoomParams, UpdatePokerRoomParams } from './types';
-
-const queryClient = useQueryClient();
 
 export const useCreatePokerRoom = (): UseMutationResult<
   any,
@@ -65,13 +59,13 @@ export const useUpdateRoom = () => {
       const { roomId, ...payload } = params;
 
       const { data } = await axios.patch(
-        `${process.env.BE_API_URL}/poker-rooms/${roomId}`,
+        `${process.env.BE_API_URL}/rooms/update/${roomId}`,
         payload
       );
       if (!data.success) {
         throw new Error(data.error);
       }
-      return data.result;
+      return data;
     },
     {
       onSuccess: (data, { roomId }) => {
@@ -120,11 +114,11 @@ export const useAssignSeating = () => {
 export const useJoinOrLeaveRoom = () => {
   return useMutation(
     async (params: { roomId: number; playerId: number; position: number }) => {
+      const { roomId, ...payload } = params;
       const { data } = await axios.patch(
-        `${process.env.BE_API_URL}/update-players/update/${params.roomId}`,
-        params
+        `${process.env.BE_API_URL}/rooms/update-players/${roomId}`,
+        payload
       );
-
       if (!data.success) {
         throw new Error(data.error);
       }
@@ -143,7 +137,7 @@ export const useDeleteRoom = () => {
   return useMutation(
     async (roomId: number) => {
       const { data } = await axios.delete(
-        `${process.env.BE_API_URL}/delete-room-players/${roomId}`
+        `${process.env.BE_API_URL}/rooms/delete-room-players/${roomId}`
       );
       if (!data.success) {
         throw new Error(data.error);

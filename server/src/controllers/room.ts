@@ -83,7 +83,6 @@ export default {
 
   getSeating: async (req: Request, res: Response): Promise<any> => {
     const { roomId } = req.params;
-    console.log(roomId);
     try {
       const seating = await roomService.getSeating(Number(roomId));
       return res.status(200).send({
@@ -110,11 +109,11 @@ export default {
       res.status(500).send({ success: false, error: error.message });
     }
   },
-  joinRoom: async (req: Request, res: Response): Promise<any> => {
+  joinOrLeaveRoom: async (req: Request, res: Response): Promise<any> => {
     const { roomId } = req.params;
     const { playerId, position } = req.body;
     try {
-      const updatedSeating = await roomService.joinRoom(
+      const updatedSeating = await roomService.joinOrLeaveRoom(
         Number(roomId),
         playerId,
         position

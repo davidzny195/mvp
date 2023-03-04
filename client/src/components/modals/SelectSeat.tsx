@@ -1,16 +1,22 @@
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useJoinOrLeaveRoom, useGetSeating } from '../../api/rooms';
+import { UpdatePayload } from './types';
+import {
+  useJoinOrLeaveRoom,
+  useGetSeating,
+  useUpdateRoom,
+} from '../../api/rooms';
 
-export default function SelectSeat({ roomId }: any) {
+export default function SelectSeat({ room }: any) {
+  const roomId = room?.roomId;
   const { data } = useGetSeating(roomId);
   const router = useRouter();
   const joinRoom = useJoinOrLeaveRoom();
+  const updateRoom = useUpdateRoom();
   const {
     currentUser: { userId },
   } = useSelector((state: any) => state.globalData);
-
   const isActiveClass = (position: string) => {
     return `h-10 w-10 rounded-full ${
       data?.[position]
@@ -24,16 +30,30 @@ export default function SelectSeat({ roomId }: any) {
     if (data[seat]) {
       return;
     }
-    try {
-      const join = await joinRoom.mutateAsync({
-        roomId,
-        playerId: userId,
-        position: n,
-      });
 
-      if (join.success) {
-        router.push(`/room/${roomId}`);
-      }
+    const newPlayerCount = room.currentPlayerCount + 1;
+    let updatePayload: UpdatePayload = {
+      roomId,
+      currentPlayerCount: newPlayerCount,
+    };
+
+    if (newPlayerCount === room.playerCount) {
+      updatePayload.canJoin = false;
+    }
+
+    try {
+      const join = await Promise.all([
+        joinRoom.mutateAsync({
+          roomId,
+          playerId: userId,
+          position: n,
+        }),
+        updateRoom.mutateAsync({
+          ...updatePayload,
+        }),
+      ]);
+
+      if (join.every((res) => res.success)) router.push(`/room/${roomId}`);
     } catch (error) {
       console.error(error);
     }

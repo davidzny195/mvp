@@ -19,8 +19,8 @@ export interface CreatePokerRoomParams {
 
 export interface UpdatePokerRoomParams {
   roomId: number;
-  playerCount?: string;
-  currentPlayerCount?: string;
+  playerCount?: number;
+  currentPlayerCount?: number;
   roomName?: string;
   roomType?: string;
   smallBlind?: number;

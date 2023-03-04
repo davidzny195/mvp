@@ -5,7 +5,7 @@ import { useFetchRooms } from '../../api/rooms';
 
 export default function RoomsList() {
   const { data, isLoading } = useFetchRooms();
-  const [roomId, setRoomId] = useState(null);
+  const [room, setRoom] = useState(null);
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,7 +31,7 @@ export default function RoomsList() {
                   <Button
                     size="small"
                     onClick={() => {
-                      setRoomId(room.roomId);
+                      setRoom(room);
                       setOpen(true);
                     }}
                   >
@@ -53,10 +53,16 @@ export default function RoomsList() {
             </Box>
           ))}
       </Box>
-      {roomId && (
-        <Modal open={open} onClose={() => setOpen(false)}>
+      {room && (
+        <Modal
+          open={open}
+          onClose={() => {
+            setRoom(null);
+            setOpen(false);
+          }}
+        >
           <div>
-            <SelectSeat roomId={roomId} />
+            <SelectSeat room={room} />
           </div>
         </Modal>
       )}

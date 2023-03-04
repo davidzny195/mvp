@@ -12,7 +12,7 @@ router.delete('/delete/:roomId', roomController.deleteRoom);
 // Room players
 router.get('/:roomId/seating', roomController.getSeating);
 router.post('/start', roomController.assignSeating);
-router.patch('/update-players/:roomId', roomController.joinRoom);
+router.patch('/update-players/:roomId', roomController.joinOrLeaveRoom);
 router.delete('/delete-room-players/:roomId', roomController.deleteRoomPlayers);
 
 export default router;

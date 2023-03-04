@@ -102,7 +102,7 @@ export default {
       throw new Error(error);
     }
   },
-  joinRoom: async (
+  joinOrLeaveRoom: async (
     roomId: number,
     playerId: number,
     position: number
