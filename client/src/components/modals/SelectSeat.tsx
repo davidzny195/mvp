@@ -1,12 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useJoinRoom, useGetSeating } from '../../api/rooms';
+import { useJoinOrLeaveRoom, useGetSeating } from '../../api/rooms';
 
 export default function SelectSeat({ roomId }: any) {
   const { data } = useGetSeating(roomId);
   const router = useRouter();
-  const joinRoom = useJoinRoom();
+  const joinRoom = useJoinOrLeaveRoom();
   const {
     currentUser: { userId },
   } = useSelector((state: any) => state.globalData);
@@ -19,15 +19,21 @@ export default function SelectSeat({ roomId }: any) {
     }`;
   };
 
-  const handleSelect = async (seat: number) => {
+  const handleSelect = async (n: number) => {
+    const seat = `player${n}`;
+    if (data[seat]) {
+      return;
+    }
     try {
       const join = await joinRoom.mutateAsync({
         roomId,
         playerId: userId,
-        position: seat,
+        position: n,
       });
 
-      router.push(`/room/${roomId}`);
+      if (join.success) {
+        router.push(`/room/${roomId}`);
+      }
     } catch (error) {
       console.error(error);
     }

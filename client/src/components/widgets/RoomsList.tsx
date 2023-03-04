@@ -21,17 +21,23 @@ export default function RoomsList() {
               <Box className="flex justify-between items-center">
                 <Box className="flex space-x-2">
                   <Box>{room.roomName}</Box>
-                  {room.canJoin && <Box className="text-green-500">Open</Box>}
+                  {room.canJoin ? (
+                    <Box className="text-green-500">Open</Box>
+                  ) : (
+                    <Box className="text-red-500">Full</Box>
+                  )}
                 </Box>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    setRoomId(room.roomId);
-                    setOpen(true);
-                  }}
-                >
-                  Join
-                </Button>
+                {room.canJoin && (
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      setRoomId(room.roomId);
+                      setOpen(true);
+                    }}
+                  >
+                    Join
+                  </Button>
+                )}
               </Box>
               <Box className="text-md">Room Type: {room.roomType}</Box>
               <Box className="flex">

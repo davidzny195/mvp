@@ -6,13 +6,13 @@ import { roomController } from '../controllers';
 router.get('/', roomController.getRooms);
 router.get('/:roomId', roomController.getRoom);
 router.post('/create', roomController.initializeRoom);
-router.patch('/update', roomController.updateRoom);
+router.patch('/update/:roomId', roomController.updateRoom);
 router.delete('/delete/:roomId', roomController.deleteRoom);
 
 // Room players
 router.get('/:roomId/seating', roomController.getSeating);
 router.post('/start', roomController.assignSeating);
-router.patch('/join', roomController.joinRoom);
-router.delete('/remove', roomController.removePlayer);
+router.patch('/update-players/:roomId', roomController.joinRoom);
+router.delete('/delete-room-players/:roomId', roomController.deleteRoomPlayers);
 
 export default router;
