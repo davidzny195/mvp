@@ -1,8 +1,8 @@
 import express from 'express';
-import authRoutes from './auth';
-import roomRoutes from './room';
-import userRoutes from './user';
-import gameRoutes from './game';
+import authRoutes from './auth.routes';
+import roomRoutes from './room.routes';
+import userRoutes from './user.routes';
+import gameRoutes from './game.routes';
 
 const router = express.Router();
 

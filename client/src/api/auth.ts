@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { WithToken, ResponseData } from './types';
-import Cookies from 'js-cookie';
+import { setCookie } from 'cookies-next';
 import store from '../redux/store';
 import { updateCurrentUser } from '../redux/state';
 
@@ -15,7 +15,10 @@ export async function login(email: string, password: string) {
     );
     const { success, message, token, user } = response.data;
     if (success) {
-      Cookies.set('token', token, { expires: 24 });
+      setCookie('token', token, {
+        maxAge: 60 * 60 * 24,
+        httpOnly: false,
+      });
       store.dispatch(updateCurrentUser(user));
     }
 

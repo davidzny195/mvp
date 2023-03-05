@@ -1,11 +1,17 @@
 import { Request, Response } from 'express';
 import { authService } from '../services';
 
+interface SessionRequest extends Request {
+  session: any;
+}
+
 export default {
-  login: async (req: Request, res: Response): Promise<void> => {
+  login: async (req: SessionRequest, res: Response): Promise<void> => {
     try {
       const { email, password } = req.body;
       const result = await authService.login(email, password);
+
+      req.session.userId = result.user_id;
       res
         .status(200)
         .send({ success: true, message: 'Successfully logged In', ...result });
