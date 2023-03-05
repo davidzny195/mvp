@@ -52,7 +52,17 @@ export default {
       throw new Error(error);
     }
   },
-  updateRoom: async (): Promise<any> => {},
+  updateRoom: async (roomId: number, params: any): Promise<any> => {
+    try {
+      const updatedRoom = await prisma.pokerRooms.update({
+        where: { roomId },
+        data: { ...params },
+      });
+      return updatedRoom;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 
   deleteRoom: async (roomId: number): Promise<any> => {
     return await prisma.pokerRooms.delete({
@@ -92,7 +102,7 @@ export default {
       throw new Error(error);
     }
   },
-  joinRoom: async (
+  joinOrLeaveRoom: async (
     roomId: number,
     playerId: number,
     position: number
@@ -111,5 +121,14 @@ export default {
     }
   },
 
-  removePlayer: async (): Promise<any> => {},
+  deleteRoomPlayers: async (roomId: number): Promise<any> => {
+    try {
+      const deleted = await prisma.roomPlayers.delete({
+        where: { roomId },
+      });
+      return deleted;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };

@@ -5,7 +5,7 @@ import { useFetchRooms } from '../../api/rooms';
 
 export default function RoomsList() {
   const { data, isLoading } = useFetchRooms();
-  const [roomId, setRoomId] = useState(null);
+  const [room, setRoom] = useState(null);
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,17 +21,23 @@ export default function RoomsList() {
               <Box className="flex justify-between items-center">
                 <Box className="flex space-x-2">
                   <Box>{room.roomName}</Box>
-                  {room.canJoin && <Box className="text-green-500">Open</Box>}
+                  {room.canJoin ? (
+                    <Box className="text-green-500">Open</Box>
+                  ) : (
+                    <Box className="text-red-500">Full</Box>
+                  )}
                 </Box>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    setRoomId(room.roomId);
-                    setOpen(true);
-                  }}
-                >
-                  Join
-                </Button>
+                {room.canJoin && (
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      setRoom(room);
+                      setOpen(true);
+                    }}
+                  >
+                    Join
+                  </Button>
+                )}
               </Box>
               <Box className="text-md">Room Type: {room.roomType}</Box>
               <Box className="flex">
@@ -47,10 +53,16 @@ export default function RoomsList() {
             </Box>
           ))}
       </Box>
-      {roomId && (
-        <Modal open={open} onClose={() => setOpen(false)}>
+      {room && (
+        <Modal
+          open={open}
+          onClose={() => {
+            setRoom(null);
+            setOpen(false);
+          }}
+        >
           <div>
-            <SelectSeat roomId={roomId} />
+            <SelectSeat room={room} />
           </div>
         </Modal>
       )}

@@ -16,3 +16,18 @@ export interface CreatePokerRoomParams {
   bigBlind: number;
   ownerId: number;
 }
+
+export interface UpdatePokerRoomParams {
+  roomId: number;
+  playerCount?: number;
+  currentPlayerCount?: number;
+  roomName?: string;
+  roomType?: string;
+  smallBlind?: number;
+  bigBlind?: number;
+  gamesCount?: number;
+  isPrivate?: boolean;
+  roomPassword?: string;
+  canJoin?: boolean;
+  ownerId?: number;
+}
