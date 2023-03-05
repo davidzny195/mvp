@@ -1,11 +1,11 @@
-import Cookies from 'js-cookie';
+import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function RouteGuard(WrappedComponent: any) {
   const Guard = (props: any) => {
     const router = useRouter();
-    const token = Cookies.get('token');
+    const token = getCookie('token');
 
     useEffect(() => {
       if (!token) {

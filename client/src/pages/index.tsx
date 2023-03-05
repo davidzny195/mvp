@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, Tab, Tabs } from '@mui/material';
-import Cookies from 'js-cookie';
+import { deleteCookie } from 'cookies-next';
 import { LoginForm, SignUpForm } from './auth';
 
 export default function Login() {
@@ -10,7 +10,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    Cookies.remove('token');
+    deleteCookie('token');
   }, []);
 
   return (
